@@ -1,10 +1,13 @@
-Resources:
-- Create chrome extension with React: https://medium.com/@5tigerjelly/creating-a-chrome-extension-with-react-and-vite-boilerplate-provided-db3d14473bf6
-- Tailwind configuration: https://tailwindcss.com/docs/installation/using-vite
-
-Making the react project: [look at old chat]
-
-
-Vite + React + TS React project
+Vite + React + TS
  + Tailwind
  + Chrome extension
+
+Configuring React project:
+- npm create vite@latest chrome-extension-react -- --template react-ts
+- cd chrome-extension-react && npm install
+
+Configuring Tailwind
+- https://tailwindcss.com/docs/installation/using-vite
+
+Configuring chrome extension
+- https://medium.com/@5tigerjelly/creating-a-chrome-extension-with-react-and-vite-boilerplate-provided-db3d14473bf6
