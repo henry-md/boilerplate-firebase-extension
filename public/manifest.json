@@ -2,9 +2,21 @@
   "manifest_version": 3,
   "name": "React-TW Chrome Extension",
   "version": "1.0.0",
-  "description": "A simple React-TW app as a Chrome extension",
+  "description": "Chrome extension w/ React, JS, TW, Firebase, OAuth",
   "action": {
     "default_popup": "index.html"
   },
-  "permissions": []
+  "permissions": [
+    "activeTab",
+    "scripting"
+  ],
+  "background": {
+    "service_worker": "background.js"
+  },
+  "content_scripts": [
+    {
+      "matches": ["<all_urls>"],
+      "js": ["content.js"]
+    }
+  ]
 }
