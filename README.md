@@ -19,6 +19,9 @@
 ## Other changes made
 
 - Configured background & content scripts
-  - Create background.ts & content.ts in src/
+  - Create background.ts & content.ts in src/extension/
   - vite.config.ts: add `background` and `content` rollupOptions.input options; specify rollupOptions.output (to specify how the extension will be compiled to the build folder)
   - manifest.json: add `activeTab` & `scripting` permissions; add background & content_scripts rules (to specify the chrome extension injection rules once compiled to the build folder)
+- Allow importing in background & content scripts
+  - Content script: add "... && esbuild src/extension/content.ts --bundle --outfile=build/content.js" to package.json build command, and remove content.ts from rollupOptions.input so that we don't compile it twice.
+  - Background script: in manifest.json add "type": "module" to background
