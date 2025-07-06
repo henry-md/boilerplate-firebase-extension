@@ -26,6 +26,24 @@ async function setupOffscreenDocument() {
   }
 }
 
+// Sufficient for bringing OAuth to front: monitor tabs for authentication windows and bring them to front
+chrome.tabs.onUpdated.addListener((tabId, changeInfo, tab) => {
+  if (changeInfo.url && (
+    changeInfo.url.includes('accounts.google.com/o/oauth2') ||
+    changeInfo.url.includes('accounts.google.com/signin') ||
+    changeInfo.url.includes(FIREBASE_HOSTING_URL)
+  )) {
+    chrome.windows.update(tab.windowId, { focused: true });
+  }
+});
+
+// Redundant for bringing OAuth to front: bring all new windows to front
+chrome.windows.onCreated.addListener((window) => {
+  if (window.type === 'popup') {
+    chrome.windows.update(window.id, { focused: true });
+  }
+});
+
 async function getAuthFromOffscreen() {
   await setupOffscreenDocument();
   return new Promise((resolve, reject) => {
