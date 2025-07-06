@@ -1,3 +1,6 @@
+Tutorial:
+- https://dev.to/lvn1/google-authentication-in-a-chrome-extension-with-firebase-2bmo
+- Edits suggested by commentor jason_k
 
 OAuth flow:
 - Popup.js sends chrome runtime message { action: 'SignIn' }
