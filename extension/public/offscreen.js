@@ -12,6 +12,8 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
       if (typeof data === "string" && data.startsWith("!_")) {
         return;
       }
+
+      // If the user is signed in, send the user object to the background script
       try {
         const parsedData = JSON.parse(data);
         window.removeEventListener("message", handleIframeMessage);

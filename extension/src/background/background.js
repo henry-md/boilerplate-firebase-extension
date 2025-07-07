@@ -26,6 +26,22 @@ async function setupOffscreenDocument() {
   }
 }
 
+async function getAuthFromOffscreen() {
+  await setupOffscreenDocument();
+  return new Promise((resolve, reject) => {
+    chrome.runtime.sendMessage(
+      { action: "getAuth", target: "offscreen" },
+      (response) => {
+        if (chrome.runtime.lastError) {
+          reject(chrome.runtime.lastError);
+        } else {
+          resolve(response);
+        }
+      }
+    );
+  });
+}
+
 // Sufficient for bringing OAuth to front: monitor tabs for authentication windows and bring them to front
 chrome.tabs.onUpdated.addListener((tabId, changeInfo, tab) => {
   if (changeInfo.url && (
@@ -43,22 +59,6 @@ chrome.windows.onCreated.addListener((window) => {
     chrome.windows.update(window.id, { focused: true });
   }
 });
-
-async function getAuthFromOffscreen() {
-  await setupOffscreenDocument();
-  return new Promise((resolve, reject) => {
-    chrome.runtime.sendMessage(
-      { action: "getAuth", target: "offscreen" },
-      (response) => {
-        if (chrome.runtime.lastError) {
-          reject(chrome.runtime.lastError);
-        } else {
-          resolve(response);
-        }
-      }
-    );
-  });
-}
 
 chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
   if (message.action === "signIn") {

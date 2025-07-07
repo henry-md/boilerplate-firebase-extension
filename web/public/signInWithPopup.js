@@ -1,5 +1,4 @@
-// import { initializeApp } from 'firebase/app';
-// import { getAuth, signInWithPopup, GoogleAuthProvider } from 'firebase/auth';
+// Avoid a build step by using the CDN
 import { initializeApp } from 'https://www.gstatic.com/firebasejs/11.0.2/firebase-app.js';
 import { getAuth, signInWithPopup, GoogleAuthProvider } from 'https://www.gstatic.com/firebasejs/11.0.2/firebase-auth.js';
 
