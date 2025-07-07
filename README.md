@@ -1,9 +1,17 @@
 ## Tutorial
 
+Original:
+
 https://dev.to/lvn1/google-authentication-in-a-chrome-extension-with-firebase-2bmo
+
+My hosted clone, in case that goes down:
+
+https://henry-md.github.io/hosting/sites/tutorial-firebase-chrome-extension-oauth/index.html
 
 
 ## Amendments to tutorial
+
+This tutorial is not perfect! Maybe it was at the time, idk... But right now, it has bugs requires amendments.
 
 - In web/public/signInWithPopup.js, import from the CDN instead of firebase packages so that you don't have to add a build step. This is common practice for Firebase web apps:
 
