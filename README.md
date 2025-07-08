@@ -1,3 +1,5 @@
+# Boilerplate Chrome extension with Firebase OAuth
+
 ## Tutorial
 
 Original:
@@ -11,7 +13,7 @@ https://henry-md.github.io/hosting/sites/tutorial-firebase-chrome-extension-oaut
 
 ## Amendments to tutorial
 
-This tutorial is not perfect! Maybe it was at the time, idk... But right now, it has bugs requires amendments.
+This tutorial is not perfect! Maybe it worked at the time, but it doesn't currently — it has it's own small bugs that need to be addressed.
 
 - In web/public/signInWithPopup.js, import from the CDN instead of firebase packages so that you don't have to add a build step. This is common practice for Firebase web apps:
 
