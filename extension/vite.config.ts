@@ -23,7 +23,7 @@ export default defineConfig({
       input: {
         main: './index.html',
         background: './src/scripts/background.ts',
-        popup: './src/popup.js',
+        popup: './public/popup.js',
         // content: './src/scripts/content.ts', // We compile this ourselves
       },
       output: {

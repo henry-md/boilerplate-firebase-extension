@@ -1,5 +1,4 @@
 import "./firebase-config";
-
 import { format } from 'date-fns'
 
 // Test imports
