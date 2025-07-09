@@ -1,9 +1,10 @@
 import './App.css'
+import Popup from './pages/Popup'
 
 function App() {
   return (
     <>
-      <h1>Where does even this go</h1>
+      <Popup />
     </>
   )
 
