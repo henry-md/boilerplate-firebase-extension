@@ -12,7 +12,7 @@ const Popup: React.FC = () => {
   }, []);
 
   useEffect(() => {
-    console.log('user', user);
+    if (user) console.log('user', user);
   }, [user]);
 
   const handleSignIn = () => {

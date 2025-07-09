@@ -1,3 +1,6 @@
 .cursorrules
 todo
 todo.md
+
+# Local file with no console errors to test content scripts
+test.html
