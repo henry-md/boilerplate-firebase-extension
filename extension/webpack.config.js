@@ -4,7 +4,7 @@ const path = require("path"),
 
 module.exports = {
   entry: {
-    background: "./src/background/background.js",
+    background: "./src/scripts/background.ts",
     popup: "./src/popup/popup.js",
   },
   mode: "development",

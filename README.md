@@ -1,5 +1,15 @@
 # Boilerplate Chrome extension with Firebase OAuth
 
+- React + TS + Tailwind
+- Firebase backend w/ OAuth
+- Module background & content scripts
+
+## To Recreate
+
+- Followed tutorial, and debugged (all below)
+- Configured Tailwind
+- Autocomplete with chrome's api: npm install -D @types/chrome
+
 ## Tutorial
 
 Original:
@@ -9,7 +19,6 @@ https://dev.to/lvn1/google-authentication-in-a-chrome-extension-with-firebase-2b
 My hosted clone, in case that goes down:
 
 https://henry-md.github.io/hosting/sites/tutorial-firebase-chrome-extension-oauth/index.html
-
 
 ## Amendments to tutorial
 
@@ -82,7 +91,7 @@ todo.md
 https://chrome.google.com/webstore/devconsole
 
 - Create project (doesn't need to be published) so that you can get the ID. Note that we need to upload a zip file to even draft a chrome extension, so we can just zip a dummy chrome extension and upload that at first, and re-upload later.
-- The ID of the drafted chrome extension should be added to /extension/public/manifest.json in key property to *deterministically* generate the ID of your local chrome extension.
+- The ID of the drafted chrome extension should be added to /extension/public/manifest.json in key property to _deterministically_ generate the ID of your local chrome extension.
 
 #### Firebase Console
 
@@ -102,13 +111,42 @@ https://console.developers.google.com/apis/credentials
 ## OAuth flow
 
 #### Outline of flow
+
 - Popup.js sends chrome runtime message `{ action: 'SignIn' }`
 - Caught by background, which creates offscreen document from offscreen.js, and sends runtime message `{ action: "getAuth", target: "offscreen" }`
 - Caught by offscreen document, which in turn sends message to the iframe Firebase web page that it contained in an iframe in its own body. Sends that iframe message `{ initAuth: true }`
 - Web element in iframe calls signInWithPopup and sends back user data
 
 #### Simplified flow
+
 - Popup.js -> Background.js creates offscreen document w/ iframe of Firebase web, which calls signInWithPopup from firebase auth.
 
 #### Why ts has to be so complicated
+
 - SignInWithPopup (Google OAuth) is fundamentally incompatible with chrome extensions V3 because it loads external code (loads content from accounts.google.com). So it must happen in the iframe of an offscreen document (offscreen document provides DOM context for the iframe)
+
+## Build & Development (Vite)
+
+This project now uses [Vite](https://vitejs.dev/) instead of Webpack.
+
+### Install dependencies
+
+```
+pnpm install
+```
+
+### Development (Popup UI only)
+
+```
+pnpm run dev
+```
+
+### Build for Chrome Extension
+
+```
+pnpm run build
+```
+
+- The build output will be in `dist/`.
+- All static assets (manifest, icons, offscreen.html, etc.) are copied automatically.
+- The background script is built as a service worker.
