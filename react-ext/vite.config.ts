@@ -22,8 +22,9 @@ export default defineConfig({
     rollupOptions: {
       input: {
         main: './index.html',
-        background: './src/extension/background.ts',
-        // content: './src/extension/content.ts', // We compile this ourselves
+        background: './src/scripts/background.ts',
+        popup: './src/popup.js',
+        // content: './src/scripts/content.ts', // We compile this ourselves
       },
       output: {
         entryFileNames: '[name].js',
@@ -31,5 +32,7 @@ export default defineConfig({
         assetFileNames: '[name].[ext]'
       }
     },
+    minify: false,
+    sourcemap: true,
   },
 })

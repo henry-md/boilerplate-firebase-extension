@@ -6,7 +6,7 @@
   "scripts": {
     "dev": "vite",
     "build:old": "tsc -b && vite build",
-    "build": "tsc -b && vite build && esbuild src/extension/content.ts --bundle --outfile=build/content.js",
+    "build": "tsc -b && vite build && esbuild src/scripts/content.ts --bundle --outfile=build/content.js",
     "lint": "eslint .",
     "preview": "vite preview"
   },
