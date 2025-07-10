@@ -1,6 +1,6 @@
 {
   "manifest_version": 3,
-  "name": "TEST",
+  "name": "Boilerplate Firebase Extension",
   "version": "1.0",
   "description": "Chrome extension with Firebase Authentication",
   "action": {
