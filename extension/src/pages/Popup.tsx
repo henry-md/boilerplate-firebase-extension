@@ -1,31 +1,12 @@
-
-import React, { useEffect, useState } from 'react';
-import type { User } from '../types/User';
+import React, { useEffect } from 'react';
+import useAuth from '../hooks/useAuth';
 
 const Popup: React.FC = () => {
-  const [user, setUser] = useState<User | null>(null);
-
-  useEffect(() => {
-    chrome.storage.local.get(['user'], (result) => {
-      setUser(result.user || null);
-    });
-  }, []);
+  const { user, handleSignIn, handleSignOut } = useAuth();
 
   useEffect(() => {
     if (user) console.log('user', user);
   }, [user]);
-
-  const handleSignIn = () => {
-    chrome.runtime.sendMessage({ action: 'signIn' }, (response) => {
-      if (response?.user) setUser(response.user);
-    });
-  };
-
-  const handleSignOut = () => {
-    chrome.runtime.sendMessage({ action: 'signOut' }, () => {
-      setUser(null);
-    });
-  };
 
   return (
     <div>
