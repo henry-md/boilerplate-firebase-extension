@@ -14,6 +14,9 @@ pnpm install
 
 You need a bit of non-code configurations to get Firebase OAuth to work. They're listed in a lot of detail in the [tutorial](#configure-firebase-oauth) discussed below, but I've also compiled the steps here
 
+Another reference for setup steps below:
+https://www.youtube.com/watch?v=n09p8Y7XfNI
+
 ### Chrome web store
 
 https://chrome.google.com/webstore/devconsole
@@ -26,7 +29,8 @@ https://chrome.google.com/webstore/devconsole
 https://console.firebase.google.com
 
 - Set up project, & web page within that project
-- Set a sign-in method of google, and within that sign-in method, safelist the ID of your chrome webstore extension with a url like `chrome-extension://<chrome-webstore-extension-id>`
+- Set up Firebase authentication: add Authentication, set a sign-in method of google, and within that sign-in method, safelist the ID of your chrome webstore extension with a url like `chrome-extension://<chrome-webstore-extension-id>`
+- Set up Firestore database
 - Should then the configuration code you can navigate to with `Project Settings > Your Apps` into `/web/public/signInWithPopup.js`
 
 ### Google Cloud Console
@@ -156,8 +160,8 @@ If you're combining the tutorial project with the React project after the fact, 
 - Web folder can go in root of project directory as it was in tutorial
 - In manifest.json, include permissions, etc. mentioned in React project. The new manifest folder should essentially be the sum of the configuration options of our existing React & tutorial configurations.
 - create `/extension/src/scripts/firebase-config.js` with content from background.js in the Firebase OAuth tutorial. Import this logic in our background.ts script to separate logic.
-- Create `/extension/src/pages/Popup.tsx`, which reworks popup.html & popup.jsx into a jsx functional component
-- Serve <Popup /> from App.tsx
+- Create `/extension/src/pages/Popup.tsx`, which reworks popup.html & popup.jsx into a jsx functional component. Can isolate the sign-up logic into custom useAuth hook as I've done.
+- Serve `<Popup />` from App.tsx
 - In vite.config.js, add `build.minify` and `build.sourcemap` options.
 
 ## OAuth flow

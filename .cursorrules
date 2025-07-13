@@ -1,8 +1,14 @@
 # General Rules
 - Do not tell me to check something in my codebase without checking it yourself first. To restate, because this is important, DO NOT give me an answer telling me to verify X about the codebase — you have the code in front of you, verify yourself! You may tell me what you found afterwards.
-- If the question is asking for clarification specifically, it is ok to answer very simply. However if the question is more in the spirit of trying to learn things (as opposed to asking clarification for something I think I already know), or seeking new ideas in some way, do not be afriad to add as much context as you would like.
+- If the question is asking for clarification specifically, it is ok to answer very simply. However if the question is more in the spirit of trying to learn things (as opposed to asking clarification for something I think I already know), do not be afriad to add as much context as you would like. Feel free to give short and long answers when appropriate.
 
 # Firebase OAuth Chrome Extension Architecture
+
+** 
+Chrome Extension Manifest V3 (MV3) imposes strict Content Security Policy (CSP) restrictions, which block inline scripts and remote script injection. This mean certain approaches and things, especially integrations with third party tools, have lots of depricated approaches that no longer work in V3 extensions. Since I'm using a V3 manifest, MAKE SURE to validate all proposed third party integrations to make sure that they are not depricated, and don't break the very strict CSP restrictions we now have. 
+
+In fact, when suggesting a third party integration, explicitly specify in your answer that it abides by the CSP in V3 extensions, since there are many outdated tutorials you have to disregard.
+**
 
 ## Offscreen Document Pattern
 The offscreen document pattern handles Firebase authentication in a separate, invisible document because Chrome’s extension security model requires isolating sensitive operations. This is achieved using chrome.offscreen.createDocument(), which creates a secure, sandboxed environment for authentication flows. This approach is fundamentally necessary because methods like signInWithPopup are incompatible with Chrome extensions due to process isolation and security restrictions that prevent direct communication between extension scripts and OAuth popups.
