@@ -65,7 +65,6 @@ const Popup: React.FC = () => {
       <div className="p-6 w-80">
         <div className="text-center">
           <h2 className="text-xl font-bold mb-4">Boilerplate Chrome Extension</h2>
-          <p className="text-gray-600 mb-4">Sign in</p>
           <button 
             onClick={handleSignIn}
             className="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded"
@@ -89,30 +88,24 @@ const Popup: React.FC = () => {
 
   return (
     <div className="p-6 w-80">
-      <div className="space-y-4">
+      <div className="flex flex-col space-y-4">
         <div className="text-center">
           <h2 className="text-xl font-bold mb-2">Boilerplate Chrome Extension</h2>
           <p className="text-sm text-gray-600">Signed in as: {user.email}</p>
         </div>
 
-        {paymentStatus === 'unpaid' ? (
-          <div className="bg-green-50 border rounded-lg align-center">
-            <h3 className="text-lg font-semibold text-green-800 mb-2">Premium Active ✨</h3>
-          </div>
+        {paymentStatus === 'paid' ? (
+          <div className="text-sm text-gray-600">Premium Active</div>
         ) : (
           <button
             onClick={handleUpgrade}
             disabled={isProcessing}
-            className="w-full bg-yellow-500 hover:bg-yellow-600 disabled:bg-gray-400 text-white px-4 py-2 rounded font-medium"
           >
-            {isProcessing ? 'Processing...' : 'Upgrade to Premium - $9.99'}
+            {isProcessing ? 'Processing...' : 'Upgrade to Premium'}
           </button>
         )}
 
-        <button 
-          onClick={handleSignOut}
-          className="text-sm text-gray-500 hover:text-gray-700"
-        >
+        <button onClick={handleSignOut}>
           Sign Out
         </button>
       </div>
