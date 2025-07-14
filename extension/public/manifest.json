@@ -23,7 +23,9 @@
     "scripting"
   ],
   "host_permissions": [
-    "https://*.firebaseapp.com/*"
+    "https://*.firebaseapp.com/*",
+    "https://*.googleapis.com/*",
+    "https://*.gstatic.com/*"
   ],
   "background": {
     "service_worker": "background.js",
@@ -38,7 +40,7 @@
   "web_accessible_resources": [
     {
       "matches": ["<all_urls>"],
-      "resources": ["offscreen.html"]
+      "resources": ["offscreen.html", "success.html", "cancel.html"]
     }
   ],
   "oauth2": {
