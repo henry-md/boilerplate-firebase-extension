@@ -90,7 +90,15 @@ An identical tutorial hosted by me, in case that goes down:
 
 https://henry-md.github.io/hosting/sites/tutorial-firebase-chrome-extension-oauth/index.html
 
-### Amendments to Tutorial
+### Integrate Stripe
+
+https://www.youtube.com/watch?v=n09p8Y7XfNI
+
+Another good reference:
+https://console.firebase.google.com/u/0/project/boilerplate-chrome-extension-2/extensions/instances/firestore-stripe-payments-qgbr?tab=usage
+(Firebase > Extensions > Run Payments With Stripe > How the extension works)
+
+### Amendments to Firebase OAuth Tutorial
 
 This tutorial is not perfect! Maybe it worked at the time, but it doesn't currently — it has it's own small bugs that need to be addressed.
 
@@ -164,6 +172,12 @@ If you're combining the tutorial project with the React project after the fact, 
 - Create `/extension/src/pages/Popup.tsx`, which reworks popup.html & popup.jsx into a jsx functional component. Can isolate the sign-up logic into custom useAuth hook as I've done.
 - Serve `<Popup />` from App.tsx
 - In vite.config.js, add `build.minify` and `build.sourcemap` options.
+
+### Amendments to Stripe Tutorial
+
+- in GCP (Google Cloud Platform) need to link google billing account to the project after you upgrade
+- In GCP, enable Cloud Build API
+- "The webhook url" is from Firebase Console > Functions > url of first webhook event
 
 ## OAuth flow
 
