@@ -1,7 +1,8 @@
-# Boilerplate Chrome extension with Firebase OAuth
+# Boilerplate Chrome extension with Firebase OAuth & Stripe
 
 - React + TS + Tailwind
 - Firebase backend w/ OAuth
+- Stripe integration
 - Module background & content scripts
 
 ## Setup & Develoment

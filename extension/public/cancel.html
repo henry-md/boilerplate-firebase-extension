@@ -1,6 +1,14 @@
 <!DOCTYPE html>
+
+<!-- 
+chrome-extension://enghnmokllhjfcoacepnappacemdifno/cancel.html
+-->
+
 <html>
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
     <title>Payment Cancelled</title>
     <style>
         body {
@@ -49,7 +57,8 @@
         <div class="cancel-icon">❌</div>
         <h1>Payment Cancelled</h1>
         <p>No worries! You can upgrade to premium anytime from the extension.</p>
-        <button onclick="window.close()">Close Window</button>
+        <button id="close-window-button">Close Window</button>
     </div>
+    <script src="cancel.js"></script>
 </body>
 </html>

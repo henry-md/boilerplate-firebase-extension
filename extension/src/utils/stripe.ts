@@ -10,53 +10,40 @@ import {
 import { db } from './firebase';
 import { FirebaseError } from 'firebase/app';
 
-const PRICE_ID = 'price_1Rk4yCFMpQHsTX0mHPa6SOkn'; // Replace with your actual Stripe price ID
+const PRICE_ID = 'price_1Rk4aZFMpQHsTX0m0uvAACzr'; // TODO: Replace with your actual Stripe price ID
 
 /**
- * Check if user has completed payment for premium features
+ * Check if user has completed payment for premium features. Note that we 
+ * check (1) in customers/{userId}/payments and (2) in root payments 
+ * collection for defensive programming, but either should be sufficient.
  */
 export async function checkPaymentStatus(userId: string): Promise<boolean> {
   try {
     console.log('Checking payment status for userId:', userId);
 
-    // Check in customers/{userId}/payments
-    const paymentsRef = collection(db, 'customers', userId, 'payments');
-    const querySnapshot = await getDocs(paymentsRef);
-    console.log('Customer payments found:', querySnapshot.size, querySnapshot);
-    
-    // Check each payment document
-    for (const doc of querySnapshot.docs) {
-      const paymentData = doc.data();
-      console.log('Payment data found:', paymentData);
-      if (paymentData.status === 'succeeded') {
-        return true;
-      }
-      
-      // Uncomment the following to verify exact payment amount
-      // if ((paymentData.amount === 999 || paymentData.amount === '999') && 
-      //     paymentData.currency === 'usd' &&
-      //     paymentData.status === 'succeeded') {
-      //   console.log('Valid payment found in customer payments');
-      //   return true;
-      // }
-    }
-
-    // Also check in root payments collection as fallback
+    // Gather all possible payment documents from both locations
+    const nestedPaymentsRef = collection(db, 'customers', userId, 'payments');
     const rootPaymentsRef = collection(db, 'payments');
-    const rootQuery = query(rootPaymentsRef, 
-      where('customer', '==', userId)
-    );
-    const rootSnapshot = await getDocs(rootQuery);
-    console.log('Root payments found:', rootSnapshot.size);
+    
+    const nestedQuery = getDocs(nestedPaymentsRef);
+    const rootQueryTask = getDocs(query(rootPaymentsRef, where('customer', '==', userId)));
 
-    for (const doc of rootSnapshot.docs) {
+    // Run queries in parallel for better performance
+    const [nestedSnapshot, rootSnapshot] = await Promise.all([nestedQuery, rootQueryTask]);
+
+    const allPaymentDocs = [...nestedSnapshot.docs, ...rootSnapshot.docs];
+    console.log(`Found ${nestedSnapshot.size} nested and ${rootSnapshot.size} root payments. Total: ${allPaymentDocs.length}`);
+
+    // Validate any of the found documents against a single, consistent rule
+    for (const doc of allPaymentDocs) {
       const paymentData = doc.data();
-      console.log('Root payment data found:', paymentData);
       
-      if ((paymentData.amount === 999 || paymentData.amount === '999') && 
-          paymentData.currency === 'usd' &&
-          paymentData.status === 'succeeded') {
-        console.log('Valid payment found in root payments');
+      // Can reference paymentData.amount or .currency for more strict validation
+      // Note: Can toggle between Premium and Free acct for testing by changing this number
+      const isValid = (paymentData.status === 'succeeded' && parseInt(paymentData.amount) >= 100); // paymentData.amount is cents
+      
+      if (isValid) {
+        console.log('A valid payment was found.', {docId: doc.id, ...paymentData});
         return true;
       }
     }
@@ -86,15 +73,19 @@ export async function createCheckoutSession(userId: string, userEmail: string): 
       'checkout_sessions'
     );
 
+    // TODO: Replace this with your actual public URL after deploying
+    const PUBLIC_SUCCESS_URL = 'https://boilerplate-chrome-extension-2.web.app/payment-success.html';
+    const PUBLIC_CANCEL_URL = 'https://boilerplate-chrome-extension-2.web.app/payment-cancel.html';
+
     const sessionData = {
       price: PRICE_ID,
-      success_url: chrome.runtime.getURL('success.html'),
-      cancel_url: chrome.runtime.getURL('cancel.html'),
+      success_url: PUBLIC_SUCCESS_URL,
+      cancel_url: PUBLIC_CANCEL_URL,
       mode: 'payment',
       metadata: {
         userId: userId,
         userEmail: userEmail,
-        product: 'video_speed_controller_premium'
+        product: 'product_description' // TODO: Replace with product description. Just used for transaction metadata — does nothing functional.
       }
     };
 
