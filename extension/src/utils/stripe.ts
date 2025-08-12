@@ -10,7 +10,10 @@ import {
 import { db } from './firebase';
 import { FirebaseError } from 'firebase/app';
 
-const PRICE_ID = 'price_1Rk4aZFMpQHsTX0m0uvAACzr'; // TODO: Replace with your actual Stripe price ID
+const PRICE_ID = import.meta.env.VITE_STRIPE_PRICE_ID as string;
+const ITEM_DESCRIPTION = import.meta.env.VITE_ITEM_DESCRIPTION as string;
+const TEST_FLAG = import.meta.env.VITE_TEST_FLAG as string === 'true';
+const TEST_FLAG_PREMIUM = import.meta.env.VITE_TEST_FLAG_PREMIUM as string === 'true';
 
 /**
  * Check if user has completed payment for premium features. Note that we 
@@ -39,8 +42,11 @@ export async function checkPaymentStatus(userId: string): Promise<boolean> {
       const paymentData = doc.data();
       
       // Can reference paymentData.amount or .currency for more strict validation
-      // Note: Can toggle between Premium and Free acct for testing by changing this number
-      const isValid = (paymentData.status === 'succeeded' && parseInt(paymentData.amount) >= 100); // paymentData.amount is cents
+      let premiumPurchaseExpectedAmount = 100; // In cents
+      if (TEST_FLAG) {
+        premiumPurchaseExpectedAmount = TEST_FLAG_PREMIUM ? 0 : Math.pow(10, 6);
+      }
+      const isValid = (paymentData.status === 'succeeded' && parseInt(paymentData.amount) >= premiumPurchaseExpectedAmount); // paymentData.amount is cents
       
       if (isValid) {
         console.log('A valid payment was found.', {docId: doc.id, ...paymentData});
@@ -73,9 +79,15 @@ export async function createCheckoutSession(userId: string, userEmail: string): 
       'checkout_sessions'
     );
 
-    // TODO: Replace this with your actual public URL after deploying
-    const PUBLIC_SUCCESS_URL = 'https://boilerplate-chrome-extension-2.web.app/payment-success.html';
-    const PUBLIC_CANCEL_URL = 'https://boilerplate-chrome-extension-2.web.app/payment-cancel.html';
+    const PUBLIC_SUCCESS_URL = import.meta.env.VITE_PUBLIC_SUCCESS_URL as string;
+    const PUBLIC_CANCEL_URL = import.meta.env.VITE_PUBLIC_CANCEL_URL as string;
+
+    if (!PRICE_ID) {
+      throw new Error('VITE_STRIPE_PRICE_ID is not set');
+    }
+    if (!PUBLIC_SUCCESS_URL || !PUBLIC_CANCEL_URL) {
+      throw new Error('VITE_PUBLIC_SUCCESS_URL or VITE_PUBLIC_CANCEL_URL is not set');
+    }
 
     const sessionData = {
       price: PRICE_ID,
@@ -85,7 +97,7 @@ export async function createCheckoutSession(userId: string, userEmail: string): 
       metadata: {
         userId: userId,
         userEmail: userEmail,
-        product: 'product_description' // TODO: Replace with product description. Just used for transaction metadata — does nothing functional.
+        product: ITEM_DESCRIPTION // Just used for transaction metadata — does nothing functional.
       }
     };
 
