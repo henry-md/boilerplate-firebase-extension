@@ -2,14 +2,15 @@
 import { initializeApp } from 'https://www.gstatic.com/firebasejs/11.0.2/firebase-app.js';
 import { getAuth, signInWithPopup, GoogleAuthProvider } from 'https://www.gstatic.com/firebasejs/11.0.2/firebase-auth.js';
 
+// TODO: Replace with your actual Firebase config after you've created Firebase web app
 const firebaseConfig = {
-  apiKey: "AIzaSyDkqMBHwrNO2AyJiaay9k-ijgeVSZFuzEc",
-  authDomain: "boilerplate-chrome-extension-2.firebaseapp.com",
-  projectId: "boilerplate-chrome-extension-2",
-  storageBucket: "boilerplate-chrome-extension-2.firebasestorage.app",
-  messagingSenderId: "480449432531",
-  appId: "1:480449432531:web:c30dd192323d45f528bd26",
-  measurementId: "G-Y43FGSN8J2"
+  apiKey: "AIzaSyAdLtyjcY6ViX-F6Q7abg_01jTr4fxIWMQ",
+  authDomain: "boilerplate-firebase-extension.firebaseapp.com",
+  projectId: "boilerplate-firebase-extension",
+  storageBucket: "boilerplate-firebase-extension.firebasestorage.app",
+  messagingSenderId: "402550927987",
+  appId: "1:402550927987:web:43abc6f943e64838503006",
+  measurementId: "G-6WWXNXMLY3"
 };
 
 const app = initializeApp(firebaseConfig);

@@ -1,7 +1,7 @@
 {
   "manifest_version": 3,
   "name": "Boilerplate Firebase Extension",
-  "version": "1.0",
+  "version": "1.0.1",
   "description": "Chrome extension configured with Firebase OAuth, Stripe, React, TS, TWC, Vite.",
   "action": {
     "default_popup": "index.html"
@@ -44,7 +44,7 @@
     }
   ],
   "oauth2": {
-    "client_id": "304645525596-978cio3tvtv2vhcsgg01sinda18thc0d.apps.googleusercontent.com",
+    "client_id": "402550927987-idevo14fv266jrkt5n020i425mjuk9eb.apps.googleusercontent.com",
     "scopes": [
       "openid", 
       "email", 

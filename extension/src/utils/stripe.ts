@@ -10,10 +10,19 @@ import {
 import { db } from './firebase';
 import { FirebaseError } from 'firebase/app';
 
-const PRICE_ID = import.meta.env.VITE_STRIPE_PRICE_ID as string;
-const ITEM_DESCRIPTION = import.meta.env.VITE_ITEM_DESCRIPTION as string;
+// Test flags
 const TEST_FLAG = import.meta.env.VITE_TEST_FLAG as string === 'true';
 const TEST_FLAG_PREMIUM = import.meta.env.VITE_TEST_FLAG_PREMIUM as string === 'true';
+
+// Firebase
+const FIREBASE_HOSTING_URL = import.meta.env.VITE_FIREBASE_HOSTING_URL as string;
+
+// Premium subscription
+const PREMIUM_PRICE_ID = import.meta.env.VITE_PREMIUM_STRIPE_PRICE_ID as string;
+const PREMIUM_PRICE_TYPE = import.meta.env.VITE_PREMIUM_PRICE_TYPE as string;
+const PREMIUM_ITEM_DESCRIPTION = import.meta.env.VITE_PREMIUM_ITEM_DESCRIPTION as string;
+const PREMIUM_SUCCESS_URL = `${FIREBASE_HOSTING_URL}/payment-success.html`;
+const PREMIUM_CANCEL_URL = `${FIREBASE_HOSTING_URL}/payment-cancel.html`;
 
 /**
  * Check if user has completed payment for premium features. Note that we 
@@ -79,29 +88,26 @@ export async function createCheckoutSession(userId: string, userEmail: string): 
       'checkout_sessions'
     );
 
-    const PUBLIC_SUCCESS_URL = import.meta.env.VITE_PUBLIC_SUCCESS_URL as string;
-    const PUBLIC_CANCEL_URL = import.meta.env.VITE_PUBLIC_CANCEL_URL as string;
-
-    if (!PRICE_ID) {
+    if (!PREMIUM_PRICE_ID) {
       throw new Error('VITE_STRIPE_PRICE_ID is not set');
     }
-    if (!PUBLIC_SUCCESS_URL || !PUBLIC_CANCEL_URL) {
-      throw new Error('VITE_PUBLIC_SUCCESS_URL or VITE_PUBLIC_CANCEL_URL is not set');
+    if (!PREMIUM_SUCCESS_URL || !PREMIUM_CANCEL_URL) {
+      throw new Error('VITE_PREMIUM_SUCCESS_URL or VITE_PREMIUM_CANCEL_URL is not set');
     }
 
     const sessionData = {
-      price: PRICE_ID,
-      success_url: PUBLIC_SUCCESS_URL,
-      cancel_url: PUBLIC_CANCEL_URL,
-      mode: 'payment',
+      price: PREMIUM_PRICE_ID,
+      success_url: PREMIUM_SUCCESS_URL,
+      cancel_url: PREMIUM_CANCEL_URL,
+      mode: PREMIUM_PRICE_TYPE,
       metadata: {
         userId: userId,
         userEmail: userEmail,
-        product: ITEM_DESCRIPTION // Just used for transaction metadata — does nothing functional.
+        product: PREMIUM_ITEM_DESCRIPTION
       }
     };
 
-    console.log('Creating checkout session...');
+    console.log('Creating checkout session...', sessionData);
     const docRef = await addDoc(checkoutSessionRef, sessionData);
     console.log('Checkout session created:', docRef.id);
 

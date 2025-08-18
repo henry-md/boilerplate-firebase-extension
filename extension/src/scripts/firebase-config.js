@@ -1,5 +1,6 @@
 const OFFSCREEN_DOCUMENT_PATH = "offscreen.html";
-const FIREBASE_HOSTING_URL = "https://boilerplate-chrome-extension-2.web.app"; // Replace with your Firebase hosting URL
+// TODO: Replace with your Firebase hosting URL
+const FIREBASE_HOSTING_URL = "https://boilerplate-firebase-extension.firebaseapp.com/";
 
 let creatingOffscreenDocument;
 
